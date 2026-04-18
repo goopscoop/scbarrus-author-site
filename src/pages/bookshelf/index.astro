@@ -1,0 +1,41 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { books } from '../../data/books';
+---
+
+<BaseLayout title="Bookshelf" description="Published novels — summaries and retailer links.">
+  <div class="mx-auto max-w-content px-4 py-12 sm:px-5">
+    <header class="max-w-measure">
+      <h1 class="font-mono text-2xl font-semibold tracking-tight sm:text-3xl">Bookshelf</h1>
+      <p class="mt-3 font-serif text-lg leading-snug text-refuge-fg/95">
+        Two titles, presented as files rather than campaigns. Detail pages include purchase links.
+      </p>
+    </header>
+
+    <ul class="mt-10 grid gap-5 sm:grid-cols-1">
+      {
+        books.map((book) => (
+          <li class="rounded-sm border border-refuge-border bg-refuge-surface shadow-panel">
+            <a href={`/books/${book.slug}`} class="block h-full rounded-sm p-6 focus-visible:outline-none">
+              <dl class="flex flex-wrap gap-x-5 gap-y-1 font-mono text-[10px] uppercase tracking-[0.12em] text-refuge-muted">
+                <div class="flex gap-1.5">
+                  <dt class="text-refuge-muted/75">Type</dt>
+                  <dd class="text-refuge-fg/85">Novel</dd>
+                </div>
+                <div class="flex gap-1.5">
+                  <dt class="text-refuge-muted/75">Archive_id</dt>
+                  <dd class="text-refuge-terminal">{book.archiveId}</dd>
+                </div>
+              </dl>
+              <p class="mt-3 font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Volume</p>
+              <h2 class="mt-2 font-mono text-lg font-semibold leading-snug text-refuge-fg">{book.title}</h2>
+              {book.year ? <p class="mt-2 font-mono text-xs text-refuge-muted">Recorded {book.year}</p> : null}
+              <p class="mt-4 font-serif text-sm leading-snug text-refuge-fg/90">{book.description}</p>
+              <p class="mt-5 font-mono text-sm font-medium text-refuge-terminal">Open dossier →</p>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</BaseLayout>

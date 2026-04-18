@@ -1,0 +1,28 @@
+---
+type Props = {
+  /** Text alignment for the readout block */
+  align?: 'start' | 'end';
+};
+
+const { align = 'end' } = Astro.props;
+---
+
+<div
+  class:list={[
+    'font-mono text-[10px] uppercase tracking-[0.14em]',
+    align === 'end' ? 'text-right' : 'text-left',
+  ]}
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
+  <time
+    data-refuge-datetime
+    datetime=""
+    class="mt-1 block text-[11px] font-normal normal-case tracking-normal text-refuge-muted"
+  >
+    <span class="sr-only">Local time:</span>
+    <span data-refuge-date>—</span>
+  </time>
+</div>

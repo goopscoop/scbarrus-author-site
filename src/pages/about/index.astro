@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import NewsletterSignup from '../../components/NewsletterSignup';
+import { site } from '../../data/site';
+
+const mailGeneral = `mailto:${site.contactEmail}?subject=${encodeURIComponent('Inquiry (Refuge site)')}`;
+const mailRights = `mailto:${site.contactEmail}?subject=${encodeURIComponent('Rights / events (Refuge site)')}`;
+---
+
+<BaseLayout title="About / Contact" description="Bio, contact, and a simple inquiry path.">
+  <div class="mx-auto max-w-content px-4 py-12 sm:px-5">
+    <div class="grid gap-12 lg:grid-cols-1 lg:items-start">
+      <div class="max-w-measure">
+        <h1 class="font-mono text-2xl font-semibold tracking-tight sm:text-3xl">About / Contact</h1>
+
+        <div class="mt-8 space-y-6 font-serif text-lg leading-snug text-refuge-fg/95">
+          <p>
+            {site.authorName} writes speculative fiction with an emphasis on restraint: clear sentences, credible
+            dread, and worlds that behave like systems under stress.
+          </p>
+          <p>
+            Public-facing updates are intentionally limited. For professional inquiries—rights, events, editorial,
+            or collaboration—use the email route below. If you represent a retailer or library, include relevant
+            identifiers in the subject line to speed routing.
+          </p>
+          <p class="text-base leading-snug text-refuge-muted">
+            Replace the placeholder name and email in <span class="font-mono text-sm text-refuge-fg/80"
+              >src/data/site.ts</span
+            > before launch.
+          </p>
+        </div>
+
+        <section class="mt-10 rounded-sm border border-refuge-border bg-refuge-surface p-6 shadow-panel" aria-labelledby="contact-heading">
+          <h2 id="contact-heading" class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">
+            Direct line
+          </h2>
+          <p class="mt-4 font-serif text-base leading-snug text-refuge-fg/95">
+            Email:
+            <a
+              class="font-mono font-semibold text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
+              href={mailGeneral}
+            >
+              {site.contactEmail}
+            </a>
+          </p>
+          <p class="mt-3 font-serif text-sm leading-snug text-refuge-muted">
+            This site does not run a server-side inbox. Use your mail client; the links below pre-fill a subject line
+            to reduce ambiguity.
+          </p>
+          <ul class="mt-5 grid gap-2 font-mono text-sm">
+            <li>
+              <a
+                class="font-medium text-refuge-fg underline decoration-refuge-border underline-offset-4 hover:text-refuge-terminal hover:decoration-refuge-terminal"
+                href={mailGeneral}
+              >
+                Open general inquiry
+              </a>
+            </li>
+            <li>
+              <a
+                class="font-medium text-refuge-fg underline decoration-refuge-border underline-offset-4 hover:text-refuge-terminal hover:decoration-refuge-terminal"
+                href={mailRights}
+              >
+                Open rights / events
+              </a>
+            </li>
+          </ul>
+        </section>
+      </div>
+
+      <NewsletterSignup client:visible />
+    </div>
+  </div>
+</BaseLayout>

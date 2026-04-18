@@ -1,0 +1,87 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { books, getBook } from '../../data/books';
+
+export function getStaticPaths() {
+  return books.map((book) => ({ params: { slug: book.slug } }));
+}
+
+const { slug } = Astro.params;
+const book = getBook(slug ?? '')!;
+---
+
+<BaseLayout title={book.title} description={book.description}>
+  <article class="mx-auto max-w-content px-4 py-12 sm:px-5">
+    <header class="border-b border-refuge-border pb-8">
+      <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Book dossier</p>
+      <dl class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.12em] text-refuge-muted">
+        <div class="flex gap-1.5">
+          <dt class="text-refuge-muted/75">Type</dt>
+          <dd class="text-refuge-fg/85">Novel</dd>
+        </div>
+        <div class="flex gap-1.5">
+          <dt class="text-refuge-muted/75">Archive_id</dt>
+          <dd class="text-refuge-terminal">{book.archiveId}</dd>
+        </div>
+      </dl>
+      <h1 class="mt-4 max-w-measure font-mono text-3xl font-semibold tracking-tight sm:text-4xl">
+        {book.title}
+      </h1>
+      {book.year ? <p class="mt-3 font-mono text-sm text-refuge-muted">First edition record: {book.year}</p> : null}
+    </header>
+
+    <div class="mt-10 grid gap-10 lg:grid-cols-1 lg:items-start">
+      <div class="max-w-measure">
+        <h2 class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Summary</h2>
+        <p class="mt-4 font-serif text-lg leading-snug text-refuge-fg/95 sm:text-xl">
+          {book.description}
+        </p>
+        <div class="mt-10 rounded-sm border border-refuge-border bg-refuge-surface p-5 shadow-panel">
+          <h3 class="font-mono text-sm font-semibold text-refuge-fg">Retailer access</h3>
+          <p class="mt-2 font-serif text-sm leading-snug text-refuge-muted">
+            Links open in a new tab. Replace search URLs with your direct listings when available.
+          </p>
+          <ul class="mt-4 grid gap-2">
+            <li>
+              <a
+                class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
+                href={book.amazonUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Amazon
+                <span class="font-mono text-[11px] text-refuge-muted">↗</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
+                href={book.audibleUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Audible
+                <span class="font-mono text-[11px] text-refuge-muted">↗</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <aside class="rounded-sm border border-refuge-border bg-refuge-elevated p-5 shadow-panel" aria-label="Navigation">
+        <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Cross-reference</p>
+        <ul class="mt-4 grid gap-2 font-mono text-sm">
+          <li>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/bookshelf">← Back to bookshelf</a>
+          </li>
+          <li>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/logs">The Refuge Logs</a>
+          </li>
+          <li>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/about">About / contact</a>
+          </li>
+        </ul>
+      </aside>
+    </div>
+  </article>
+</BaseLayout>
