@@ -1,6 +1,6 @@
 /** Update these before publishing. */
 export const site = {
-  authorName: 'Your Name',
+  authorName: 'S.C. Barrus',
   /** Used for mailto: links and visible contact line */
   contactEmail: 'hello@example.com',
   /** Short line for the home page */
