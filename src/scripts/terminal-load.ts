@@ -170,7 +170,6 @@ async function runSequence(): Promise<void> {
     'THE REFUGE',
     'Author site for S.C. Barrus — speculative fiction, filed without ceremony.',
   ];
-  const leftBlock = leftLines.join('\n');
 
   /** Empty page */
   root.setAttribute('data-terminal-phase', 'empty');
@@ -213,16 +212,30 @@ async function runSequence(): Promise<void> {
 
   leftReadableContent.classList.add('terminal-load-hidden');
 
-  const preLeft = document.createElement('pre');
-  preLeft.className = 'terminal-load-typing-left absolute left-0 top-0 z-10';
-  preLeft.setAttribute('data-terminal-header-typing', '');
-  headerReadableLeft.appendChild(preLeft);
+  const line1El = leftReadableContent.querySelector<HTMLElement>('[data-terminal-line="1"]');
+  const line2El = leftReadableContent.querySelector<HTMLElement>('[data-terminal-line="2"]');
+  const line3El = leftReadableContent.querySelector<HTMLElement>('[data-terminal-line="3"]');
 
-  await typeText(preLeft, leftBlock, TYPE_HEADER_REMAINDER_MS);
+  if (!line1El || !line2El || !line3El) {
+    finishAnimation();
+    return;
+  }
 
-  preLeft.remove();
+  line1El.textContent = '';
+  line2El.textContent = '';
+  line3El.textContent = '';
 
   leftReadableContent.classList.remove('terminal-load-hidden');
+
+  const totalChars = leftLines[0].length + leftLines[1].length + leftLines[2].length;
+  const totalMs = TYPE_HEADER_REMAINDER_MS;
+  const d1 = totalChars > 0 ? (leftLines[0].length / totalChars) * totalMs : 0;
+  const d2 = totalChars > 0 ? (leftLines[1].length / totalChars) * totalMs : 0;
+  const d3 = totalChars > 0 ? (leftLines[2].length / totalChars) * totalMs : 0;
+
+  await typeText(line1El, leftLines[0], d1);
+  await typeText(line2El, leftLines[1], d2);
+  await typeText(line3El, leftLines[2], d3);
 
   await sleep(PAUSE_AFTER_HEADER_REMAINDER_MS);
 

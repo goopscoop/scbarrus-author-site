@@ -92,6 +92,3 @@
   @apply text-refuge-terminalGreen;
 }
 
-.terminal-load-typing-left {
-  @apply pointer-events-none m-0 max-w-full whitespace-pre-wrap font-mono text-[11px] uppercase leading-normal tracking-[0.22em] text-refuge-muted;
-}
