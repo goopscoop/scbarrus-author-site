@@ -4,7 +4,7 @@ import ConnectionReadout from './ConnectionReadout.astro';
 const year = new Date().getFullYear();
 ---
 
-<footer class="relative z-10 mt-16 border-t border-refuge-border bg-refuge-surface">
+<footer id="site-footer" class="relative z-10 mt-16 border-t border-refuge-border bg-refuge-surface">
   <div
     class="mx-auto flex max-w-content flex-col gap-4 px-4 py-8 text-sm text-refuge-muted sm:px-5 sm:py-8"
   >
@@ -12,7 +12,7 @@ const year = new Date().getFullYear();
       <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-refuge-muted">
         © {year} · THE REFUGE
       </p>
-      <ConnectionReadout align="end" />
+      <ConnectionReadout align="end" variant="footer" />
     </div>
     <p class="max-w-measure font-serif text-sm leading-snug">
       Static pages, minimal scripts. No tracking by default—verify your host configuration before launch.

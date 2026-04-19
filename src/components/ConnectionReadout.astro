@@ -1,28 +1,73 @@
 ---
 type Props = {
-  /** Text alignment for the readout block */
   align?: 'start' | 'end';
+  variant?: 'header' | 'footer';
 };
 
-const { align = 'end' } = Astro.props;
+const { align = 'end', variant = 'header' } = Astro.props;
 ---
 
-<div
-  class:list={[
-    'font-mono text-[10px] uppercase tracking-[0.14em]',
-    align === 'end' ? 'text-right' : 'text-left',
-  ]}
-  role="status"
-  aria-live="polite"
-  aria-atomic="true"
->
-  <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
-  <time
-    data-refuge-datetime
-    datetime=""
-    class="mt-1 block text-[11px] font-normal normal-case tracking-normal text-refuge-muted"
-  >
-    <span class="sr-only">Local time:</span>
-    <span data-refuge-date>—</span>
-  </time>
-</div>
+{
+  variant === 'footer' ? (
+    <div
+      class:list={[
+        'font-mono text-[10px] uppercase tracking-[0.14em]',
+        align === 'end' ? 'text-right' : 'text-left',
+      ]}
+      data-terminal-connection-skip
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
+      <time
+        data-refuge-datetime
+        datetime=""
+        class="mt-1 block text-[11px] font-normal normal-case tracking-normal text-refuge-muted"
+      >
+        <span class="sr-only">Local time:</span>
+        <span data-refuge-date>—</span>
+      </time>
+    </div>
+  ) : (
+    <div
+      class:list={[
+        'font-mono text-[10px] uppercase tracking-[0.14em]',
+        align === 'end' ? 'text-right' : 'text-left',
+      ]}
+      role="status"
+      aria-live="polite"
+      aria-atomic="true"
+    >
+      <div data-terminal-connection-run class="terminal-load-connection-run">
+        <p class="text-refuge-terminalGreen">
+          <span data-terminal-connection-prefix />
+          <span data-terminal-connection-ellipsis class="terminal-load-ellipsis" />
+          <span data-terminal-connection-stable />
+          <span data-terminal-cursor class="terminal-load-cursor" hidden>
+            ▌
+          </span>
+        </p>
+        <time
+          data-refuge-datetime
+          datetime=""
+          class="mt-1 block text-[11px] font-normal normal-case tracking-normal text-refuge-muted"
+        >
+          <span class="sr-only">Local time:</span>
+          <span data-terminal-date-typing />
+        </time>
+      </div>
+      <div data-terminal-connection-skip class="terminal-load-connection-skip">
+        <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
+        <time
+          data-refuge-datetime
+          datetime=""
+          class="mt-1 block text-[11px] font-normal normal-case tracking-normal text-refuge-muted"
+        >
+          <span class="sr-only">Local time:</span>
+          <span data-refuge-date>—</span>
+        </time>
+      </div>
+    </div>
+  )
+}
