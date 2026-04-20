@@ -10,7 +10,7 @@ export const TERMINAL_LOAD_STORAGE_KEY = 'refuge-terminal-load-day';
 export const EMPTY_PAGE_MS = 200;
 
 /** Green cursor blinks before "CONNECTION:" appears */
-export const CURSOR_BLINK_TOTAL_MS = 750;
+export const CURSOR_BLINK_TOTAL_MS = 800;
 /** Full on/off cycles */
 export const CURSOR_BLINK_CYCLES = 3;
 
@@ -18,8 +18,14 @@ export const CURSOR_BLINK_CYCLES = 3;
 export const TYPE_CONNECTION_MS = 300;
 
 /** Ellipsis after CONNECTION: (ping / wait) */
-export const ELLIPSIS_BLINK_TOTAL_MS = 750;
+export const ELLIPSIS_BLINK_TOTAL_MS = 800;
 export const ELLIPSIS_BLINK_CYCLES = 3;
+
+/** Typewriter for "ESTABLISHING LINK..." (after ellipsis, before STABLE) */
+export const TYPE_ESTABLISHING_MS = 300;
+
+/** Pause after "ESTABLISHING LINK..." finishes typing (before it clears and STABLE runs) */
+export const PAUSE_AFTER_ESTABLISHING_MS = 1000;
 
 /** Typewriter duration for "STABLE" (after "CONNECTION: ") */
 export const TYPE_STABLE_MS = 300;

@@ -6,11 +6,13 @@ import {
   EMPTY_PAGE_MS,
   FADE_MAIN_FOOTER_MS,
   PAUSE_AFTER_DATE_MS,
+  PAUSE_AFTER_ESTABLISHING_MS,
   PAUSE_AFTER_HEADER_REMAINDER_MS,
   PAUSE_AFTER_STABLE_MS,
   TERMINAL_LOAD_STORAGE_KEY,
   TYPE_CONNECTION_MS,
   TYPE_DATE_MS,
+  TYPE_ESTABLISHING_MS,
   TYPE_HEADER_REMAINDER_MS,
   TYPE_STABLE_MS,
 } from '../constants/terminalLoadAnimation';
@@ -189,11 +191,24 @@ async function runSequence(): Promise<void> {
   await blinkElement(cursorEl, CURSOR_BLINK_CYCLES, CURSOR_BLINK_TOTAL_MS);
   cursorEl.hidden = true;
 
-  await typeText(prefixEl, 'CONNECTION:', TYPE_CONNECTION_MS);
+  await typeText(prefixEl, 'CONNECTION: ', TYPE_CONNECTION_MS);
 
   ellipsisEl.textContent = '...';
   await blinkElement(ellipsisEl, ELLIPSIS_BLINK_CYCLES, ELLIPSIS_BLINK_TOTAL_MS);
   ellipsisEl.textContent = '';
+
+  const establishingWrap = document.querySelector<HTMLElement>('[data-terminal-establishing-wrap]');
+  const establishingText = document.querySelector<HTMLElement>('[data-terminal-establishing-text]');
+  if (!establishingWrap || !establishingText) {
+    finishAnimation();
+    return;
+  }
+
+  establishingWrap.hidden = false;
+  await typeText(establishingText, 'ESTABLISHING LINK...', TYPE_ESTABLISHING_MS);
+  await sleep(PAUSE_AFTER_ESTABLISHING_MS);
+  establishingText.textContent = '';
+  establishingWrap.hidden = true;
 
   prefixEl.textContent = 'CONNECTION: ';
   await typeText(stableEl, 'STABLE', TYPE_STABLE_MS);
