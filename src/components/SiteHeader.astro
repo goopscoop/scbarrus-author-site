@@ -19,52 +19,68 @@ function isActive(href: string) {
 <header class="relative z-10 border-b border-refuge-border bg-refuge-bg/95 shadow-panel">
   <div class="mx-auto flex max-w-content flex-col gap-5 px-4 py-5 sm:px-5">
     <div class="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-start sm:gap-6">
-      <div class="min-w-0">
-        <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">
-          Municipal archive · terminal access
-        </p>
-        <p class="mt-2 font-mono text-lg font-semibold tracking-tight text-refuge-fg sm:text-xl">
-          <a
-            href="/"
-            class="rounded-sm text-refuge-fg hover:text-refuge-terminal focus-visible:outline-none"
-          >
-            THE REFUGE
-          </a>
-        </p>
-        <p class="mt-1 w-full max-w-none font-serif text-sm leading-snug text-refuge-muted">
-          Author site for S.C. Barrus — speculative fiction, filed without ceremony.
-        </p>
+      <div class="min-w-0" data-terminal-header-left>
+        <div data-terminal-header-readable-left class="relative min-h-[1px]">
+          <div class="terminal-load-readable-content">
+            <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">
+              <span data-terminal-line="1">Municipal archive · terminal access</span>
+            </p>
+            <p class="mt-2 font-mono text-lg font-semibold tracking-tight text-refuge-fg sm:text-xl">
+              <a
+                href="/"
+                class="rounded-sm text-refuge-fg hover:text-refuge-terminal focus-visible:outline-none"
+              >
+                <span data-terminal-line="2">THE REFUGE</span>
+              </a>
+            </p>
+            <p class="mt-1 w-full max-w-none font-serif text-sm leading-snug text-refuge-muted">
+              <span data-terminal-line="3">
+                Author site for S.C. Barrus — speculative fiction, filed without ceremony.
+              </span>
+            </p>
+          </div>
+        </div>
       </div>
-      <div class="shrink-0 sm:justify-self-end sm:pt-0.5">
-        <ConnectionReadout align="end" />
+      <div class="shrink-0 sm:justify-self-end sm:pt-0.5" data-terminal-header-right>
+        <ConnectionReadout align="end" variant="header" />
       </div>
     </div>
 
-    <nav aria-label="Primary" class="w-full border-t border-refuge-border pt-4">
-      <ul class="flex flex-col gap-y-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
-        {
-          links.map((link, i) => {
-            const n = String(i + 1).padStart(2, '0');
-            return (
-              <li>
-                <a
-                  href={link.href}
-                  aria-current={isActive(link.href) ? 'page' : undefined}
-                  class:list={[
-                    'block rounded-sm py-0.5 font-mono text-sm transition-colors focus-visible:outline-none',
-                    isActive(link.href)
-                      ? 'text-refuge-terminal'
-                      : 'text-refuge-muted hover:text-refuge-terminal',
-                  ]}
-                >
-                  <span class="text-refuge-muted">[{n}]</span>{' '}
-                  <span class={isActive(link.href) ? 'font-semibold' : 'font-medium'}>{link.label}</span>
-                </a>
-              </li>
-            );
-          })
-        }
-      </ul>
+    <nav
+      aria-label="Primary"
+      class="relative w-full border-t border-refuge-border pt-4"
+      data-terminal-header-nav
+    >
+      <div data-terminal-header-readable-nav class="relative min-h-[1px]">
+        <div class="terminal-load-readable-content">
+          <ul class="flex flex-col gap-y-2 sm:flex-row sm:flex-wrap sm:gap-x-6 sm:gap-y-2">
+            {
+              links.map((link, i) => {
+                const n = String(i + 1).padStart(2, '0');
+                return (
+                  <li>
+                    <a
+                      href={link.href}
+                      aria-current={isActive(link.href) ? 'page' : undefined}
+                      class:list={[
+                        'block rounded-sm py-0.5 font-mono text-sm transition-colors focus-visible:outline-none',
+                        isActive(link.href)
+                          ? 'text-refuge-terminal'
+                          : 'text-refuge-muted hover:text-refuge-terminal',
+                      ]}
+                    >
+                      <span class="text-refuge-muted">[{n}]</span>{' '}
+                      <span class={isActive(link.href) ? 'font-semibold' : 'font-medium'}>
+                        {link.label}
+                      </span>
+                    </a>
+                  </li>
+                );
+              })
+            }
+          </ul>
+        </div>
+      </div>
     </nav>
   </div>
 </header>

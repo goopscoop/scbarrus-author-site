@@ -41,3 +41,54 @@
     opacity: 0.03;
   }
 }
+
+/* First-visit-of-day terminal boot (see src/constants/terminalLoadAnimation.ts) */
+[data-terminal-header-right] .terminal-load-connection-run {
+  display: none;
+}
+
+[data-terminal-load='run'] [data-terminal-header-right] .terminal-load-connection-run {
+  display: block;
+}
+
+[data-terminal-load='run'] [data-terminal-header-right] .terminal-load-connection-skip {
+  display: none;
+}
+
+[data-terminal-load='run'][data-terminal-phase='empty'] #terminal-app-shell {
+  opacity: 0 !important;
+}
+
+[data-terminal-load='run']:not([data-terminal-phase='fade']) #main,
+[data-terminal-load='run']:not([data-terminal-phase='fade']) #site-footer,
+[data-terminal-load='run']:not([data-terminal-phase='fade']) [data-terminal-header-nav] {
+  opacity: 0;
+  visibility: hidden;
+}
+
+[data-terminal-load='run'][data-terminal-phase='fade'] #main,
+[data-terminal-load='run'][data-terminal-phase='fade'] #site-footer,
+[data-terminal-load='run'][data-terminal-phase='fade'] [data-terminal-header-nav] {
+  opacity: 0;
+  visibility: visible;
+}
+
+.terminal-load-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.terminal-load-cursor,
+.terminal-load-ellipsis {
+  opacity: 0;
+}
+
+.terminal-load-blink-on {
+  opacity: 1;
+}
+
+.terminal-load-cursor {
+  @apply text-refuge-terminalGreen;
+}
+

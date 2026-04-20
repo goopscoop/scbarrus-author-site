@@ -28,10 +28,29 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
       rel="stylesheet"
     />
     <title>{pageTitle}</title>
+    <script is:inline>
+      (function () {
+        /* Must match TERMINAL_LOAD_STORAGE_KEY in src/constants/terminalLoadAnimation.ts */
+        var k = 'refuge-terminal-load-day';
+        var pad = function (n) {
+          return String(n).padStart(2, '0');
+        };
+        var d = new Date();
+        var day = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+        var mode = 'skip';
+        try {
+          if (localStorage.getItem(k) !== day) mode = 'run';
+        } catch (e) {}
+        document.documentElement.setAttribute('data-terminal-load', mode);
+        if (mode === 'run') {
+          document.documentElement.setAttribute('data-terminal-phase', 'empty');
+        }
+      })();
+    </script>
   </head>
   <body class="relative min-h-dvh">
     <div class="grain-overlay" aria-hidden="true"></div>
-    <div class="relative z-10 flex min-h-dvh flex-col">
+    <div id="terminal-app-shell" class="relative z-10 flex min-h-dvh flex-col">
       <SiteHeader />
       <main id="main" class="flex-1">
         <slot />
@@ -85,6 +104,10 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
         tick();
         setInterval(tick, 30000);
       })();
+    </script>
+    <script>
+      import { initTerminalLoad } from '../scripts/terminal-load';
+      initTerminalLoad();
     </script>
   </body>
 </html>
