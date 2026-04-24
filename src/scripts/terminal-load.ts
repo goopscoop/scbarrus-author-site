@@ -6,12 +6,14 @@ import {
   EMPTY_PAGE_MS,
   FADE_MAIN_FOOTER_MS,
   PAUSE_AFTER_DATE_MS,
+  PAUSE_AFTER_DISCONNECTED_MS,
   PAUSE_AFTER_ESTABLISHING_MS,
   PAUSE_AFTER_HEADER_REMAINDER_MS,
   PAUSE_AFTER_STABLE_MS,
   TERMINAL_LOAD_STORAGE_KEY,
   TYPE_CONNECTION_MS,
   TYPE_DATE_MS,
+  TYPE_DISCONNECTED_MS,
   TYPE_ESTABLISHING_MS,
   TYPE_HEADER_REMAINDER_MS,
   TYPE_STABLE_MS,
@@ -196,6 +198,19 @@ async function runSequence(): Promise<void> {
   ellipsisEl.textContent = '...';
   await blinkElement(ellipsisEl, ELLIPSIS_BLINK_CYCLES, ELLIPSIS_BLINK_TOTAL_MS);
   ellipsisEl.textContent = '';
+
+  const disconnectedWrap = document.querySelector<HTMLElement>('[data-terminal-disconnected-wrap]');
+  const disconnectedText = document.querySelector<HTMLElement>('[data-terminal-disconnected-text]');
+  if (!disconnectedWrap || !disconnectedText) {
+    finishAnimation();
+    return;
+  }
+
+  disconnectedWrap.hidden = false;
+  await typeText(disconnectedText, 'DISCONNECTED', TYPE_DISCONNECTED_MS);
+  await sleep(PAUSE_AFTER_DISCONNECTED_MS);
+  disconnectedText.textContent = '';
+  disconnectedWrap.hidden = true;
 
   const establishingWrap = document.querySelector<HTMLElement>('[data-terminal-establishing-wrap]');
   const establishingText = document.querySelector<HTMLElement>('[data-terminal-establishing-text]');
