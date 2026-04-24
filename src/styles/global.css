@@ -92,3 +92,56 @@
   @apply text-refuge-terminalGreen;
 }
 
+@keyframes refuge-site-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  8%,
+  24%,
+  40%,
+  56%,
+  72%,
+  88% {
+    transform: translateX(-14px);
+  }
+  16%,
+  32%,
+  48%,
+  64%,
+  80%,
+  96% {
+    transform: translateX(14px);
+  }
+}
+
+.refuge-site-shake {
+  animation: refuge-site-shake 0.45s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+  will-change: transform;
+}
+
+/** Pre–blackout flicker (5-tap second phase) */
+@keyframes refuge-site-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0.12;
+  }
+  40% {
+    opacity: 0.88;
+  }
+  60% {
+    opacity: 0.18;
+  }
+  80% {
+    opacity: 0.75;
+  }
+}
+
+.refuge-site-flicker {
+  animation: refuge-site-flicker 0.32s step-end forwards;
+  will-change: opacity;
+}
+

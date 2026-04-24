@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { BLACKOUT_FADE_IN_MS, BLACKOUT_FADE_OUT_MS } from '../constants/terminalLoadAnimation';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
@@ -57,6 +58,21 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
       </main>
       <SiteFooter />
     </div>
+    <div
+      class="refuge-blackout fixed inset-0 z-[200] flex items-center justify-center bg-black p-4 opacity-0 transition-opacity ease-in-out"
+      data-refuge-blackout
+      data-refuge-blackout-fade-in-ms={String(BLACKOUT_FADE_IN_MS)}
+      data-refuge-blackout-fade-out-ms={String(BLACKOUT_FADE_OUT_MS)}
+      hidden
+      inert
+      aria-hidden="true"
+    >
+      <p
+        class="max-w-[min(100%,42rem)] text-center font-mono text-[10px] uppercase tracking-[0.14em] text-refuge-terminalGreen"
+      >
+        <span class="text-refuge-terminalGreen" data-refuge-blackout-reestablish></span>
+      </p>
+    </div>
     <script is:inline>
       (function () {
         function format() {
@@ -107,7 +123,36 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
     </script>
     <script>
       import { initTerminalLoad } from '../scripts/terminal-load';
+      import { initStableTap } from '../scripts/stable-tap';
       initTerminalLoad();
+      initStableTap();
+    </script>
+    <script is:inline>
+      (function () {
+        if (typeof console === 'undefined' || !console.log) return;
+        /* refuge-terminalGreen — same as Tailwind text-refuge-terminalGreen */
+        var terminalGreen = 'color: #4AF626; font-family: ui-monospace, Menlo, Consolas, monospace;';
+        console.log(
+          'WARNING: UNAUTHORIZED ACCESS TO MUNICIPAL ARCHIVE DETECTED. LOGGING IP ADDRESS...\n\n%c' +
+            '         _______________\n' +
+            '        /               \\\n' +
+            '       /                 \\\n' +
+            '      /                   \\\n' +
+            '      |   XXXX     XXXX   |\n' +
+            '      |   XXXX     XXXX   |\n' +
+            '      |   XXX       XXX   |\n' +
+            '      |         X         |\n' +
+            '      \\__      XXX     __/\n' +
+            '        |\\     XXX     /|\n' +
+            '        | |           | |\n' +
+            '        | I I I I I I I |\n' +
+            '        |  I I I I I I  |\n' +
+            '         \\_           _/\n' +
+            '          \\_         _/\n' +
+            '            \\_______/',
+          terminalGreen,
+        );
+      })();
     </script>
   </body>
 </html>
