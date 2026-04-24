@@ -21,6 +21,12 @@ export const TYPE_CONNECTION_MS = 300;
 export const ELLIPSIS_BLINK_TOTAL_MS = 800;
 export const ELLIPSIS_BLINK_CYCLES = 3;
 
+/** Typewriter for "DISCONNECTED" (after ellipsis, before establishing link) */
+export const TYPE_DISCONNECTED_MS = 300;
+
+/** Pause after "DISCONNECTED" finishes (before that line clears) */
+export const PAUSE_AFTER_DISCONNECTED_MS = 800;
+
 /** Typewriter for "ESTABLISHING LINK..." (after ellipsis, before STABLE) */
 export const TYPE_ESTABLISHING_MS = 300;
 
