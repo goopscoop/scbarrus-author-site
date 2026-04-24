@@ -53,3 +53,24 @@ export const PAUSE_AFTER_HEADER_REMAINDER_MS = 300;
 
 /** #main, #site-footer, and nav fade-in */
 export const FADE_MAIN_FOOTER_MS = 1000;
+
+/**
+ * After 3-tap "STABLE" shake: header/footer connection readout sequence
+ */
+export const POST_SHAKE_TYPE_UNSTABLE_MS = 300;
+export const POST_SHAKE_WAIT_MS = 1000;
+export const POST_SHAKE_TYPE_REESTABLISH_MS = 300;
+export const POST_SHAKE_REEST_BLINK_TOTAL_MS = 1700;
+export const POST_SHAKE_REEST_BLINK_CYCLES = 5;
+export const POST_SHAKE_TYPE_STABLE_AGAIN_MS = 300;
+/** Shown in the skip readout; matches establishing-link tone */
+export const POST_SHAKE_REESTABLISHING_TEXT = "RE-ESTABLISHING LINK...";
+
+/**
+ * Second-phase "blackout" after 3-tap + post-shake: 5 taps on STABLE
+ */
+export const STABLE_TAP_FIVE = 5;
+/** Flicker on #terminal-app-shell before blackout */
+export const BLACKOUT_PRE_FLICKER_MS = 320;
+export const BLACKOUT_FADE_IN_MS = 200;
+export const BLACKOUT_FADE_OUT_MS = 800;

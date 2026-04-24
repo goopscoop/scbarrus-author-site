@@ -19,7 +19,23 @@ const { align = 'end', variant = 'header' } = Astro.props;
       aria-live="polite"
       aria-atomic="true"
     >
-      <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
+      <p class="text-refuge-terminalGreen">
+        CONNECTION:{' '}
+        <span
+          class="cursor-pointer select-none rounded-sm hover:text-refuge-terminal"
+          data-refuge-stable-tap
+          role="button"
+          tabindex="0"
+          >STABLE</span
+        >
+      </p>
+      <p
+        class="mt-0.5 block text-refuge-terminalGreen"
+        data-refuge-reestablish-wrap
+        hidden
+      >
+        <span class="text-refuge-terminalGreen" data-refuge-reestablish-text></span>
+      </p>
       <time
         data-refuge-datetime
         datetime=""
@@ -64,7 +80,23 @@ const { align = 'end', variant = 'header' } = Astro.props;
         </time>
       </div>
       <div data-terminal-connection-skip class="terminal-load-connection-skip">
-        <p class="text-refuge-terminalGreen">CONNECTION: STABLE</p>
+        <p class="text-refuge-terminalGreen">
+          CONNECTION:{' '}
+          <span
+            class="cursor-pointer select-none rounded-sm hover:text-refuge-terminal"
+            data-refuge-stable-tap
+            role="button"
+            tabindex="0"
+            >STABLE</span
+          >
+        </p>
+        <p
+          class="mt-0.5 block text-refuge-terminalGreen"
+          data-refuge-reestablish-wrap
+          hidden
+        >
+          <span class="text-refuge-terminalGreen" data-refuge-reestablish-text></span>
+        </p>
         <time
           data-refuge-datetime
           datetime=""
