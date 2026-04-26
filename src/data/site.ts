@@ -5,5 +5,5 @@ export const site = {
   contactEmail: 'hello@example.com',
   /** Short line for the home page */
   positioning:
-    'I write speculative fiction with an emphasis on atmosphere, consequence, and systems that fail in human-shaped ways.',
+    `I write speculative fiction with an emphasis on atmosphere, consequence, and the pursuit of the unknown. In between, I make art.`
 };
