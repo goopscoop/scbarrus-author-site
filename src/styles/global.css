@@ -1,6 +1,28 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-refuge-bg: #000000;
+  --color-refuge-surface: #050505;
+  --color-refuge-elevated: #0a0a0a;
+  --color-refuge-border: #242424;
+  --color-refuge-muted: #8f8a82;
+  --color-refuge-fg: #e8e4dc;
+  --color-refuge-terminal: #ffb000;
+  /* Match v3 `refuge.terminalMuted` / `refuge-terminalMuted` */
+  --color-refuge-terminalMuted: #6b4f00;
+  /* Must match class `text-refuge-terminalGreen` (nested `terminalGreen`, not `terminal-green`) */
+  --color-refuge-terminalGreen: #4af626;
+
+  --font-sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-serif: 'Source Serif 4', Georgia, Cambria, 'Times New Roman', Times, serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', Menlo, Monaco, Consolas, monospace;
+
+  --max-width-measure: 34rem;
+  --max-width-content: 800px;
+
+  --shadow-panel: inset 0 1px 0 0 rgba(255, 255, 255, 0.03);
+}
 
 @layer base {
   :root {
@@ -20,7 +42,7 @@
   }
 
   :focus-visible {
-    @apply outline outline-2 outline-offset-2 outline-refuge-terminal;
+    @apply outline-2 outline-offset-2 outline-refuge-terminal;
   }
 }
 
@@ -144,4 +166,3 @@
   animation: refuge-site-flicker 0.32s step-end forwards;
   will-change: opacity;
 }
-

@@ -1,15 +1,14 @@
 import { defineCollection, z } from 'astro:content';
+import { glob } from 'astro/loaders';
 
 const logs = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/*.md', base: 'src/content/logs' }),
   schema: z
     .object({
       title: z.string(),
-      /** ISO date string (YYYY-MM-DD) */
       date: z.coerce.date(),
       summary: z.string().optional(),
       draft: z.boolean().default(false),
-      /** Public URL path under /public (e.g. /sketches/character-a.jpg) */
       image: z.string().optional(),
       imageAlt: z.string().optional(),
       tags: z.array(z.string()).optional(),
@@ -17,7 +16,7 @@ const logs = defineCollection({
     .superRefine((data, ctx) => {
       if (data.image && !data.imageAlt) {
         ctx.addIssue({
-          code: z.ZodIssueCode.custom,
+          code: 'custom',
           message: 'imageAlt is required when image is set',
           path: ['imageAlt'],
         });
