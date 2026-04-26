@@ -1,17 +1,18 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const entries = await getCollection('logs', ({ data }) => !data.draft);
-  return entries.map((entry) => ({
-    params: { slug: entry.slug },
-    props: { entry },
-  }));
+  return entries.map((entry) => {
+    const tail = entry.id.split('/').pop() ?? entry.id;
+    const slug = tail.replace(/\.mdx?$/i, '');
+    return { params: { slug }, props: { entry } };
+  });
 }
 
 const { entry } = Astro.props;
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 ---
 
 <BaseLayout title={entry.data.title} description={entry.data.summary ?? entry.data.title}>
@@ -22,7 +23,7 @@ const { Content } = await entry.render();
       <p class="mt-4 font-mono text-sm text-refuge-muted">{entry.data.date.toISOString().slice(0, 10)}</p>
       {entry.data.tags?.length ? (
         <ul class="mt-4 flex flex-wrap gap-2" aria-label="Tags">
-          {entry.data.tags.map((t) => (
+          {entry.data.tags.map((t: string) => (
             <li class="rounded-sm border border-refuge-border bg-refuge-surface px-2 py-1 font-mono text-[11px] text-refuge-muted">
               {t}
             </li>

@@ -2,8 +2,8 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { books, getBook } from '../../data/books';
 
-export function getStaticPaths() {
-  return books.map((book) => ({ params: { slug: book.slug } }));
+export async function getStaticPaths() {
+  return books.map((book) => ({ params: { slug: String(book.slug) } }));
 }
 
 const { slug } = Astro.params;
