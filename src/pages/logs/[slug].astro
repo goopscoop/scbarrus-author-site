@@ -1,4 +1,5 @@
 ---
+import LogTerminal from '../../components/mdx/LogTerminal.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection, render } from 'astro:content';
 
@@ -17,7 +18,7 @@ const { Content } = await render(entry);
 
 <BaseLayout title={entry.data.title} description={entry.data.summary ?? entry.data.title}>
   <article class="mx-auto max-w-content px-4 py-12 sm:px-5">
-    <header class="max-w-measure border-b border-refuge-border pb-8">
+    <header class="border-b border-refuge-border pb-8">
       <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Refuge log</p>
       <h1 class="mt-3 font-mono text-3xl font-semibold tracking-tight sm:text-4xl">{entry.data.title}</h1>
       <p class="mt-4 font-mono text-sm text-refuge-muted">{entry.data.date.toISOString().slice(0, 10)}</p>
@@ -33,7 +34,7 @@ const { Content } = await render(entry);
     </header>
 
     {entry.data.image ? (
-      <figure class="mt-10 max-w-measure">
+      <figure class="mt-10">
         <img
           src={entry.data.image}
           alt={entry.data.imageAlt ?? ''}
@@ -49,11 +50,11 @@ const { Content } = await render(entry);
 
     <div
       class:list={[
-        'prose prose-invert max-w-measure prose-headings:font-mono prose-headings:tracking-tight prose-p:font-serif prose-p:text-base prose-p:leading-snug prose-li:font-serif prose-li:leading-snug prose-a:text-refuge-terminal prose-a:no-underline hover:prose-a:underline',
+        'prose prose-invert max-w-none prose-headings:font-mono prose-headings:tracking-tight prose-p:font-serif prose-p:text-base prose-p:leading-snug prose-li:font-serif prose-li:leading-snug prose-a:text-refuge-terminal prose-a:no-underline hover:prose-a:underline',
         entry.data.image ? 'mt-10' : 'mt-10',
       ]}
     >
-      <Content />
+      <Content components={{ LogTerminal }} />
     </div>
 
     <nav class="mt-12 border-t border-refuge-border pt-8" aria-label="Log navigation">
