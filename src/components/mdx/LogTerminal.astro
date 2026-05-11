@@ -1,0 +1,38 @@
+---
+/**
+ * Framed “terminal” block for log MDX. Default: full border, 60px padding.
+ * `inline` — no top/right/bottom border (left bar only), 5px padding top/right/bottom and 30px left. Example: <LogTerminal inline>…</LogTerminal>
+ */
+const { class: className, inline, ...rest } = Astro.props;
+const isInline =
+  inline !== false &&
+  inline !== 'false' &&
+  (inline === true || inline === '' || inline === 'true');
+---
+
+<div
+  {...rest}
+  class:list={[
+    'not-prose',
+    isInline
+      ? 'border-0 border-l-2 border-green-500/50 pt-[5px] pr-[5px] pb-[5px] pl-[30px]'
+      : 'border-2 border-green-500/90 p-[60px]',
+    'bg-zinc-900 shadow-[inset_0_0_80px_rgba(0,0,0,0.9)]',
+    'font-mono',
+    'text-sm',
+    'leading-relaxed',
+    'text-green-400',
+    '[text-shadow:none]',
+    '[&_a]:text-green-400',
+    '[&_a]:underline',
+    'hover:[&_a]:text-green-300',
+    '[&_a]:decoration-refuge-border',
+    className,
+  ]}
+  data-log-terminal
+  data-log-terminal-inline={isInline || undefined}
+>
+  <div class="[&_p]:m-0 [&_p+p]:mt-3">
+    <slot />
+  </div>
+</div>

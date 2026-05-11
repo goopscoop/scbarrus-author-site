@@ -2,9 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const entries = (await getCollection('logs', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
-);
+const entries = (await getCollection('logs', ({ data }) => !data.draft)).sort((a, b) => {
+  const ap = a.data.pinned ? 1 : 0;
+  const bp = b.data.pinned ? 1 : 0;
+  if (ap !== bp) return bp - ap;
+  return b.data.date.valueOf() - a.data.date.valueOf();
+});
 
 function logSlugFromId(id: string): string {
   return (id.split('/').pop() ?? id).replace(/\.mdx?$/i, '');
@@ -19,10 +22,10 @@ function logSlugFromId(id: string): string {
     <header class="max-w-measure">
       <h1 class="font-mono text-2xl font-semibold tracking-tight sm:text-3xl">The Refuge Logs</h1>
       <p class="mt-3 font-serif text-lg leading-snug text-refuge-fg/95">
-        A work-in-progress index. Add new Markdown files under <span class="font-mono text-sm text-refuge-muted"
-          >src/content/logs/</span
-        >; images belong in <span class="font-mono text-sm text-refuge-muted">public/</span> and are referenced from
-        frontmatter.
+        Welcome to the Refuge Logs. This data has been intercepted from the Municipal Authority and displayed here in real time.
+      </p>
+      <p class="mt-3 font-serif text-lg leading-snug text-refuge-fg/95">
+        Primary documents include the ravings and drawings of one S.C. Barrus, a citizen of Refuge. Some items may be unfit for public consumption. READ AT YOUR OWN RISK.
       </p>
     </header>
 
@@ -35,6 +38,11 @@ function logSlugFromId(id: string): string {
               <article class="grid gap-6 lg:grid-cols-[220px_1fr] lg:items-start">
                 <div>
                   <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Entry</p>
+                  {entry.data.pinned ? (
+                    <p class="mt-1.5 font-mono text-[10px] uppercase tracking-[0.18em] text-refuge-terminal">
+                      Pinned
+                    </p>
+                  ) : null}
                   <p class="mt-2 font-mono text-xs text-refuge-muted">
                     {entry.data.date.toISOString().slice(0, 10)}
                   </p>
