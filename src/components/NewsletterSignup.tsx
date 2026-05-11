@@ -39,14 +39,14 @@ export default function NewsletterSignup({ className = '' }: Props) {
         </p>
 
         <form className="mt-6 grid gap-3" onSubmit={handleSubmit} noValidate>
-          <div className="grid gap-2 sm:grid-cols-[1fr_auto] sm:items-end sm:gap-3">
-            <div className="grid gap-1">
-              <label
-                htmlFor={emailId}
-                className="font-mono text-[11px] uppercase tracking-[0.18em] text-green-500/75"
-              >
-                Email
-              </label>
+          <div className="grid gap-1">
+            <label
+              htmlFor={emailId}
+              className="font-mono mb-2 text-[11px] uppercase tracking-[0.18em] text-green-500/75"
+            >
+              Email
+            </label>
+            <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-0">
               <input
                 id={emailId}
                 name="email"
@@ -55,15 +55,15 @@ export default function NewsletterSignup({ className = '' }: Props) {
                 inputMode="email"
                 required
                 placeholder="you@domain.com"
-                className="w-full border border-green-500/50 bg-black/40 px-3 py-2 font-mono text-sm text-green-300 placeholder:text-green-600/80 outline-none ring-0 focus:border-green-400 focus:ring-1 focus:ring-green-500/40"
+                className="box-border h-10 w-full min-w-0 border border-green-500/50 bg-black/40 px-3 py-0 font-mono text-sm leading-10 text-green-300 placeholder:text-green-600/80 outline-none ring-0 focus:border-green-400 focus:ring-1 focus:ring-inset focus:ring-green-500/40 sm:flex-1 sm:border-r-0"
               />
+              <button
+                type="submit"
+                className="relative z-10 box-border flex h-10 w-full shrink-0 items-center justify-center border-2 border-green-500/80 bg-zinc-950/80 px-4 font-mono text-sm font-medium text-green-400 hover:border-green-400 hover:text-green-300 sm:w-auto"
+              >
+                EXECUTE
+              </button>
             </div>
-            <button
-              type="submit"
-              className="h-[42px] border-2 border-green-500/80 bg-zinc-950/80 px-4 font-mono text-sm font-medium text-green-400 hover:border-green-400 hover:text-green-300"
-            >
-              EXECUTE
-            </button>
           </div>
           {status === 'queued' ? (
             <p className="m-0 font-mono text-[11px] text-green-600" role="status" aria-live="polite">
