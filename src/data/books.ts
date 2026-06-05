@@ -9,7 +9,7 @@ export type Book = {
   description: string;
   /** Replace with your retailer URLs when ready. */
   amazonUrl: string;
-  audibleUrl: string;
+  audibleUrl?: string;
   img: string;
   type: 'novel' | 'short-story' | 'collection' | 'novella';
 };
@@ -22,9 +22,7 @@ export const books: Book[] = [
     year: '2020',
     description:
       'A supernatural mystery involving a book bound in human skin and the otherworldly spirits trapped within. Can William and Florence expel the otherworldly entities? More importantly, will they even survive the night?',
-    amazonUrl: 'https://www.amazon.com/s?k=The+Peculiar+Case+of+the+Luminous+Eye',
-    audibleUrl:
-      'https://www.audible.com/search?keywords=The+Peculiar+Case+of+the+Luminous+Eye',
+    amazonUrl: 'https://www.amazon.com/Peculiar-Case-Luminous-Eye-Paranormal/dp/0989917746/',
     img: 'peculiar-case-cover.jpg',
     type: 'novella',
   },
@@ -35,8 +33,7 @@ export const books: Book[] = [
     year: '2014',
     description:
       `A dark saterical steampunk adventure. Two professors steal acient map from a crimelord and find themselves in a race to make the discovery of a lifetime, if it doesn't kill them first.`,
-    amazonUrl: 'https://www.amazon.com/s?k=Discovering+Aberration',
-    audibleUrl: 'https://www.audible.com/search?keywords=Discovering+Aberration',
+    amazonUrl: 'https://www.amazon.com/Discovering-Aberration-S-C-Barrus/dp/0989917703/',
     img: 'discovering-aberration-cover.jpg',
     type: 'novel',
   },
