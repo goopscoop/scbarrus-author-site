@@ -32,7 +32,7 @@ export const books: Book[] = [
     archiveId: '002',
     year: '2014',
     description:
-      `A dark saterical steampunk adventure. Two professors steal acient map from a crimelord and find themselves in a race to make the discovery of a lifetime, if it doesn't kill them first.`,
+      `A dark satirical steampunk adventure. Two professors steal ancient map from a crimelord and find themselves in a race to make the discovery of a lifetime, if it doesn't kill them first.`,
     amazonUrl: 'https://www.amazon.com/Discovering-Aberration-S-C-Barrus/dp/0989917703/',
     img: 'discovering-aberration-cover.jpg',
     type: 'novel',
