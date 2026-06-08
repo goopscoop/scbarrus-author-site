@@ -4,9 +4,6 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import NewsletterSignup from '../components/NewsletterSignup';
 import kultCover from '../assets/kult_cover.jpg';
-import { books, displayBookType } from '../data/books';
-import { coverByFilename } from '../data/coverAssets';
-import { site } from '../data/site';
 
 function logSlugFromId(id: string): string {
   return (id.split('/').pop() ?? id).replace(/\.mdx?$/i, '');
@@ -29,23 +26,26 @@ const recentLogs = (
 >
   <div class="mx-auto max-w-content px-4 py-12 sm:px-5">
     <div class="border-l-2 border-refuge-border pl-5">
-      <h1 class="font-mono text-2xl font-semibold tracking-tight text-refuge-fg sm:text-3xl">
-        {site.authorName}
-      </h1>
-      <div
-        class="mt-3 flex flex-col gap-6 sm:mt-4 sm:flex-row sm:items-start sm:gap-6 md:gap-8"
-      >
-        <p class="min-w-0 max-w-[min(100%,34rem)] flex-1 font-serif text-lg leading-snug text-refuge-fg/95 sm:text-xl">
-          {site.positioning}
-          <br />
-          <br />
-          <span class="font-mono text-refuge-terminal">KULT</span><br />
-          <span class="font-mono text-refuge-terminalGreen">STATUS: IN DEVELOPMENT</span>
-          <br />
-          A supernatural dystopia set in Refuge, Earth's final decaying outpost. Kult investigates
-          a reality-altering anomaly in a crumbling society completely severed from the rest of
-          humanity.
-        </p>
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-6 md:gap-8">
+        <div class="min-w-0 flex-1 flex flex-col gap-6">
+          <div>
+            <h1 class="font-mono text-2xl font-semibold tracking-tight sm:text-3xl text-refuge-terminal">
+              KULT
+            </h1>
+            <span class="mb-4 block font-mono text-[11px]">STATUS: <span class="text-refuge-terminalGreen">IN DEVELOPMENT</span></span>
+            <p class="font-serif text-lg leading-snug text-refuge-fg/95 sm:text-xl">
+              A supernatural dystopia set in Refuge, Earth's final decaying outpost. Kult investigates
+              a reality-altering anomaly in a crumbling society completely severed from the rest of
+              humanity.
+            </p>
+          </div>
+          <p>
+            <a
+              href="/logs/01-kult-chapter-01"
+              class="inline-block border border-refuge-terminal px-7 py-3 font-mono text-[0.82rem] uppercase tracking-[0.19em] text-refuge-terminal no-underline transition-colors duration-200 ease-in-out hover:bg-refuge-terminal hover:text-zinc-900"
+            >Read the first chapter</a>
+          </p>
+        </div>
         <div class="mx-auto w-full max-w-[10rem] shrink-0 sm:mx-0 sm:max-w-[12rem] md:max-w-[13.5rem]">
           <Image
             src={kultCover}
@@ -55,7 +55,6 @@ const recentLogs = (
             loading="eager"
             fetchpriority="high"
           />
-          <p class="mt-4 font-mono text-sm font-medium text-refuge-terminal"><a href="/logs/01-kult-chapter-01">Read the first chapter →</a></p>
         </div>
       </div>
     </div>
@@ -105,79 +104,7 @@ const recentLogs = (
       </ul>
     </section>
 
-    <section class="mt-14 grid gap-6 lg:grid-cols-1 lg:items-start">
-      <div class="rounded-sm border border-refuge-border bg-refuge-surface p-6 shadow-panel">
-        <h2 class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Shelf snapshot</h2>
-        <ul class="mt-4 divide-y divide-refuge-border">
-          {
-            books.map((b) => {
-              const cover = coverByFilename[b.img];
-              return (
-              <li class="py-4 first:pt-0">
-                <div class="flex gap-4 sm:gap-5">
-                  {cover ? (
-                    <a
-                      href={`/books/${b.slug}`}
-                      class="shrink-0 self-start rounded-sm focus-visible:outline-none"
-                      aria-label={`Open dossier: ${b.title}`}
-                    >
-                      <Image
-                        src={cover}
-                        alt={`Cover: ${b.title}`}
-                        class="h-auto w-[4.5rem] rounded-sm border border-refuge-border bg-refuge-elevated object-cover shadow-panel sm:w-[5.5rem]"
-                        widths={[88, 128, 176]}
-                        sizes="(min-width: 640px) 5.5rem, 4.5rem"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </a>
-                  ) : null}
-                  <div class="min-w-0 flex-1 flex flex-col">
-                    <a href={`/books/${b.slug}`} class="group block rounded-sm focus-visible:outline-none">
-                      <dl class="mb-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[10px] uppercase tracking-[0.12em] text-refuge-muted">
-                        <div class="flex gap-1.5">
-                          <dt class="text-refuge-muted/75">Type</dt>
-                          <dd class="text-refuge-fg/85">{displayBookType(b.type)}</dd>
-                        </div>
-                        <div class="flex gap-1.5">
-                          <dt class="text-refuge-muted/75">Archive_id</dt>
-                          <dd class="text-refuge-terminal">{b.archiveId}</dd>
-                        </div>
-                      </dl>
-                      <p class="font-mono text-sm font-semibold text-refuge-fg group-hover:text-refuge-terminal">
-                        {b.title}
-                        {b.year ? <span class="font-normal text-refuge-muted"> · {b.year}</span> : null}
-                      </p>
-                      <p class="mt-2 font-serif text-sm leading-snug text-refuge-fg/90">{b.description}</p>
-                    </a>
-                    <p class="mt-3">
-                      <a
-                        href={b.amazonUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminalGreen underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminalGreen"
-                      >
-                        Buy on Amazon
-                        <span class="font-mono text-[11px] text-refuge-terminalGreen/70">↗</span>
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </li>
-              );
-            })
-          }
-        </ul>
-        <p class="mt-5">
-          <a
-            href="/bookshelf"
-            class="font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
-          >
-            Open the bookshelf
-          </a>
-        </p>
-      </div>
-
+    <section class="mt-14">
       <NewsletterSignup client:visible />
     </section>
   </div>

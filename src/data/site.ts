@@ -2,8 +2,8 @@
 export const site = {
   authorName: 'S.C. Barrus',
   /** Used for mailto: links and visible contact line */
-  contactEmail: 'hello@example.com',
+  contactEmail: 'kult@scbarrus.com',
   /** Short line for the home page */
   positioning:
-    `Writer and pen and ink artist building the world of KULT. Writes speculative fiction with an emphasis on atmosphere, consequence, and the pursuit of the unknown.`
+    `Though rumored dead, S.C. Barrus was allegedly witnessed colluding on the project KULT. He is armed with paper and pen, and highly dangerous.`
 };

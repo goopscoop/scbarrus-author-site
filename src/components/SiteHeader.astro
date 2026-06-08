@@ -5,7 +5,6 @@ const pathname = Astro.url.pathname;
 
 const links = [
   { href: '/', label: 'Home' },
-  { href: '/bookshelf', label: 'Bookshelf' },
   { href: '/logs', label: 'The Refuge Logs' },
   { href: '/about', label: 'About / Contact' },
 ];
@@ -23,7 +22,7 @@ function isActive(href: string) {
         <div data-terminal-header-readable-left class="relative min-h-[1px]">
           <div class="terminal-load-readable-content">
             <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">
-              <span data-terminal-line="1">Municipal archive · terminal access</span>
+              <span data-terminal-line="1">// TERMINAL ACCESS &middot; MUNICIPAL ARCHIVE</span>
             </p>
             <p class="mt-2 font-mono text-lg font-semibold tracking-tight text-refuge-fg sm:text-xl">
               <a
@@ -35,7 +34,7 @@ function isActive(href: string) {
             </p>
             <p class="mt-1 w-full max-w-none font-serif text-sm leading-snug text-refuge-muted">
               <span data-terminal-line="3">
-                  Files from the final city on Earth.
+                  Intercepted logs from the final city on Earth.
               </span>
             </p>
           </div>
