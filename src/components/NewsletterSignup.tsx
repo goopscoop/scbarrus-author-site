@@ -77,8 +77,10 @@ export default function NewsletterSignup({ className = '' }: Props) {
         ) : (
           <>
             <p className="mt-3 font-mono text-sm leading-relaxed text-green-500/90">
-              To receive future intercepts, establish a secure uplink below. The
-              intercepts transmit only when the signal is worth the noise.
+              A recovered document has been intercepted and awaits your review — 
+              a Citizen Induction Packet from the Municipal Archive. Establish a 
+              secure uplink below to claim your copy. Future
+              transmissions will follow only when the signal is worth the noise.
             </p>
 
             <form className="mt-6 grid gap-3" onSubmit={handleSubmit} noValidate>
