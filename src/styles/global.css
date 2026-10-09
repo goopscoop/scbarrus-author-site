@@ -166,3 +166,93 @@
   animation: refuge-site-flicker 0.32s step-end forwards;
   will-change: opacity;
 }
+
+/* STATUS STYLES */
+.status-archived {
+  color: #6B7280;
+  border: 1px solid #6B7280;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.status-flagged {
+  color: #EAB308;
+  border: 1px solid #EAB308;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.status-monitored {
+  color: #E87D2B;
+  border: 1px solid #E87D2B;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.status-wanted {
+  color: #EF4444;
+  border: 1px solid #EF4444;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.status-warrant-issued {
+  color: #DC2626;
+  border: 1px solid #DC2626;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
+
+.status-deceased {
+  color: #4B5563;
+  border: 1px solid #4B5563;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+  text-decoration: line-through;
+}
+
+/* THREAT ASSESSMENT STYLES */
+.threat-compliant {
+  color: #22C55E;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.threat-at-risk {
+  color: #A3E635;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.threat-non-compliant {
+  color: #E87D2B;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.threat-threat {
+  color: #EF4444;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.threat-terrorist {
+  color: #DC2626;
+  font-style: italic;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.system-message {
+  color: #4B5563;
+  padding: 1px 6px;
+  letter-spacing: 0.05em;
+  font-weight: bold;
+}
