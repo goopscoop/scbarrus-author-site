@@ -3,15 +3,62 @@ import '../styles/global.css';
 import { BLACKOUT_FADE_IN_MS, BLACKOUT_FADE_OUT_MS } from '../constants/terminalLoadAnimation';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { site } from '../data/site';
 
 type Props = {
+  /** On-page / short title. Becomes "<title> · The Refuge | S.C. Barrus" unless `seoTitle` is set. */
   title: string;
+  /** Full <title> override for search results (keep under ~60 characters). */
+  seoTitle?: string;
   description?: string;
+  /** Absolute or root-relative share image. Defaults to the KULT cover. */
+  image?: string;
+  imageAlt?: string;
+  ogType?: 'website' | 'article' | 'book' | 'profile';
+  /** Extra JSON-LD objects for this page (Book, Article, etc.). */
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
 };
 
-const { title, description = 'Speculative fiction from Refuge — work, bibliography, and contact.' } =
-  Astro.props;
-const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
+const {
+  title,
+  seoTitle,
+  description = site.defaultDescription,
+  image = '/kult_cover.jpg',
+  imageAlt = 'Cover art for KULT, a dystopian novel by S.C. Barrus',
+  ogType = 'website',
+  jsonLd = [],
+  noindex = false,
+} = Astro.props;
+
+const pageTitle = seoTitle ?? (title === 'Refuge' ? site.homeTitle : `${title} · The Refuge | S.C. Barrus`);
+
+// One canonical form per page: absolute, trailing slash (matches the sitemap and Cloudflare Pages).
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonical = new URL(path, Astro.site).href;
+const imageUrl = new URL(image, Astro.site).href;
+
+const siteGraph = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${Astro.site}#website`,
+    name: 'The Refuge',
+    alternateName: 'The Refuge — KULT by S.C. Barrus',
+    url: Astro.site?.href,
+    publisher: { '@id': site.personId },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    '@id': site.personId,
+    name: site.authorName,
+    url: site.authorUrl,
+    jobTitle: 'Author and pen-and-ink artist',
+    sameAs: site.sameAs,
+  },
+];
+const structuredData = [...siteGraph, ...jsonLd];
 ---
 
 <!doctype html>
@@ -20,8 +67,12 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex ? <meta name="robots" content="noindex, follow" /> : null}
+    <meta name="author" content={site.authorName} />
     <meta name="theme-color" content="#000000" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -30,21 +81,25 @@ const pageTitle = title === 'Refuge' ? 'THE REFUGE' : `${title} · THE REFUGE`;
     />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://therefuge.scbarrus.com" />
-    <meta property="og:title" content="The Refuge" />
-    <meta property="og:description" content="Dispatches from Refuge, Earth's last city. Home of KULT, a supernatural dystopia in development by S.C. Barrus." />
-    <meta property="og:image" content="https://therefuge.scbarrus.com/kult_cover.jpg" />
+    <meta property="og:site_name" content="The Refuge" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={imageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
 
     <!-- Twitter/X Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="The Refuge" />
-    <meta name="twitter:description" content="Dispatches from Refuge, Earth's last city. Home of KULT, a supernatural dystopia in development by S.C. Barrus." />
-    <meta name="twitter:image" content="https://therefuge.scbarrus.com/kult_cover.jpg" />
-    
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
     <meta name="google-site-verification" content="X9uPJVXO6uoRxelupAb8SC-_NcGXDr-lkxX4P-zIyIo" />
     <title>{pageTitle}</title>
-    
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
+
     <script is:inline>
       (function () {
         /* Must match TERMINAL_LOAD_STORAGE_KEY in src/constants/terminalLoadAnimation.ts */

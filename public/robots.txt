@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://therefuge.scbarrus.com/sitemap-index.xml

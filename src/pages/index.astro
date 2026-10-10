@@ -22,7 +22,7 @@ const recentLogs = (
 
 <BaseLayout
   title="Refuge"
-  description="The Refuge — dispatches from Refuge, Earth's last city. Home of KULT, a supernatural dystopia in development by S.C. Barrus."
+  description="KULT is a supernatural dystopian novel by S.C. Barrus, set in Refuge — Earth's last sealed, dying city. Read the first chapter and claim a free in-world Citizen Induction Packet."
 >
   <div class="mx-auto max-w-content px-4 py-12 sm:px-5">
     <div class="border-l-2 border-refuge-border pl-5">
@@ -41,7 +41,7 @@ const recentLogs = (
           </div>
           <p>
             <a
-              href="/logs/01-kult-chapter-01"
+              href="/logs/01-kult-chapter-01/"
               class="inline-block border border-refuge-terminal px-7 py-3 font-mono text-[0.82rem] uppercase tracking-[0.19em] text-refuge-terminal no-underline transition-colors duration-200 ease-in-out hover:bg-refuge-terminal hover:text-zinc-900"
             >Read the first chapter</a>
           </p>
@@ -49,7 +49,7 @@ const recentLogs = (
         <div class="mx-auto w-full max-w-[10rem] shrink-0 sm:mx-0 sm:max-w-[12rem] md:max-w-[13.5rem]">
           <Image
             src={kultCover}
-            alt="Novel cover art"
+            alt="Cover art for KULT by S.C. Barrus"
             class="h-auto w-full max-h-[min(52vh,24rem)] rounded-sm object-contain object-top shadow-panel"
             sizes="(min-width: 640px) 12rem, 100vw"
             loading="eager"
@@ -87,7 +87,7 @@ const recentLogs = (
                 </div>
               </dl>
               <a
-                href={`/logs/${slug}`}
+                href={`/logs/${slug}/`}
                 class="mt-4 block rounded-sm focus-visible:outline-none"
               >
                 <h3 class="font-mono text-base font-semibold leading-snug text-refuge-fg hover:text-refuge-terminal">

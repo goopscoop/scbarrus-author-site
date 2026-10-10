@@ -8,6 +8,10 @@ const logs = defineCollection({
       title: z.string(),
       date: z.coerce.date(),
       summary: z.string().optional(),
+      /** Optional search-result title (<60 chars). Defaults to "<title> · The Refuge | S.C. Barrus". */
+      seoTitle: z.string().optional(),
+      /** Optional plain-language meta description for search results. Defaults to `summary`. */
+      description: z.string().optional(),
       draft: z.boolean().default(false),
       image: z.string().optional(),
       imageAlt: z.string().optional(),

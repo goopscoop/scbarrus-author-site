@@ -1,6 +1,9 @@
 ---
+import { getImage } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { books, getBook } from '../../data/books';
+import NewsletterSignup from '../../components/NewsletterSignup';
+import { books, getBook, displayBookType } from '../../data/books';
+import { coverByFilename } from '../../data/coverAssets';
 
 export async function getStaticPaths() {
   return books.map((book) => ({ params: { slug: String(book.slug) } }));
@@ -8,16 +11,45 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const book = getBook(slug ?? '')!;
+
+const coverSrc = coverByFilename[book.img];
+const cover = coverSrc ? await getImage({ src: coverSrc, width: 800, format: 'jpg' }) : undefined;
+
+const retailers = [
+  { label: 'Amazon', href: book.amazonUrl },
+  { label: 'Audible', href: book.audibleUrl },
+  { label: 'Goodreads', href: book.goodreadsUrl },
+].filter((r): r is { label: string; href: string } => Boolean(r.href));
+
+const bookLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Book',
+  name: book.title,
+  description: book.description,
+  author: { '@id': 'https://scbarrus.com/#person' },
+  ...(book.year ? { datePublished: book.year } : {}),
+  ...(book.genre ? { genre: book.genre } : {}),
+  ...(cover ? { image: new URL(cover.src, Astro.site).href } : {}),
+  sameAs: [book.amazonUrl, book.goodreadsUrl].filter(Boolean),
+};
 ---
 
-<BaseLayout title={book.title} description={book.description}>
+<BaseLayout
+  title={book.title}
+  seoTitle={`${book.title} — a ${displayBookType(book.type).toLowerCase()} by S.C. Barrus`}
+  description={book.description}
+  ogType="book"
+  image={cover?.src}
+  imageAlt={`Cover of ${book.title} by S.C. Barrus`}
+  jsonLd={[bookLd]}
+>
   <article class="mx-auto max-w-content px-4 py-12 sm:px-5">
     <header class="border-b border-refuge-border pb-8">
       <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Book dossier</p>
       <dl class="mt-4 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10px] uppercase tracking-[0.12em] text-refuge-muted">
         <div class="flex gap-1.5">
           <dt class="text-refuge-muted/75">Type</dt>
-          <dd class="text-refuge-fg/85">Novel</dd>
+          <dd class="text-refuge-fg/85">{displayBookType(book.type)}</dd>
         </div>
         <div class="flex gap-1.5">
           <dt class="text-refuge-muted/75">Archive_id</dt>
@@ -38,32 +70,22 @@ const book = getBook(slug ?? '')!;
         </p>
         <div class="mt-10 rounded-sm border border-refuge-border bg-refuge-surface p-5 shadow-panel">
           <h3 class="font-mono text-sm font-semibold text-refuge-fg">Retailer access</h3>
-          <p class="mt-2 font-serif text-sm leading-snug text-refuge-muted">
-            Links open in a new tab. Replace search URLs with your direct listings when available.
-          </p>
           <ul class="mt-4 grid gap-2">
-            <li>
-              <a
-                class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
-                href={book.amazonUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open Amazon
-                <span class="font-mono text-[11px] text-refuge-muted">↗</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
-                href={book.audibleUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open Audible
-                <span class="font-mono text-[11px] text-refuge-muted">↗</span>
-              </a>
-            </li>
+            {
+              retailers.map((r) => (
+                <li>
+                  <a
+                    class="inline-flex items-center gap-2 rounded-sm font-mono text-sm font-medium text-refuge-terminal underline decoration-refuge-border underline-offset-4 hover:decoration-refuge-terminal"
+                    href={r.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open {r.label}
+                    <span class="font-mono text-[11px] text-refuge-muted">↗</span>
+                  </a>
+                </li>
+              ))
+            }
           </ul>
         </div>
       </div>
@@ -72,16 +94,18 @@ const book = getBook(slug ?? '')!;
         <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Cross-reference</p>
         <ul class="mt-4 grid gap-2 font-mono text-sm">
           <li>
-            <a class="text-refuge-fg hover:text-refuge-terminal" href="/bookshelf">← Back to bookshelf</a>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/bookshelf/">← Back to bookshelf</a>
           </li>
           <li>
-            <a class="text-refuge-fg hover:text-refuge-terminal" href="/logs">The Refuge Logs</a>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/logs/">The Refuge Logs</a>
           </li>
           <li>
-            <a class="text-refuge-fg hover:text-refuge-terminal" href="/about">About / contact</a>
+            <a class="text-refuge-fg hover:text-refuge-terminal" href="/about/">About / contact</a>
           </li>
         </ul>
       </aside>
     </div>
+
+    <NewsletterSignup client:visible className="mt-14" />
   </article>
 </BaseLayout>

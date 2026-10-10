@@ -114,6 +114,10 @@ export default function NewsletterSignup({ className = '' }: Props) {
                 </div>
               </div>
 
+              <p className="m-0 font-mono text-[11px] leading-relaxed text-green-500/60">
+                Free. Your address is never shared. Unsubscribe with one click from any transmission.
+              </p>
+
               {status === 'error' && (
                 <p
                   className="m-0 font-mono text-[11px] text-red-400"

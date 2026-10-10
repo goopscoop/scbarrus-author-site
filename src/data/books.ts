@@ -10,6 +10,9 @@ export type Book = {
   /** Replace with your retailer URLs when ready. */
   amazonUrl: string;
   audibleUrl?: string;
+  goodreadsUrl?: string;
+  /** Schema.org genre label for structured data. */
+  genre?: string;
   img: string;
   type: 'novel' | 'short-story' | 'collection' | 'novella';
 };
@@ -23,6 +26,8 @@ export const books: Book[] = [
     description:
       'A supernatural mystery involving a book bound in human skin and the otherworldly spirits trapped within. Can William and Florence expel the otherworldly entities? More importantly, will they even survive the night?',
     amazonUrl: 'https://www.amazon.com/Peculiar-Case-Luminous-Eye-Paranormal/dp/0989917746/',
+    goodreadsUrl: 'https://www.goodreads.com/book/show/54228797-the-peculiar-case-of-the-luminous-eye',
+    genre: 'Supernatural mystery',
     img: 'peculiar-case-cover.jpg',
     type: 'novella',
   },
@@ -34,6 +39,8 @@ export const books: Book[] = [
     description:
       `A dark satirical steampunk adventure. Two professors steal ancient map from a crimelord and find themselves in a race to make the discovery of a lifetime, if it doesn't kill them first.`,
     amazonUrl: 'https://www.amazon.com/Discovering-Aberration-S-C-Barrus/dp/0989917703/',
+    goodreadsUrl: 'https://www.goodreads.com/book/show/20937346-discovering-aberration',
+    genre: 'Steampunk',
     img: 'discovering-aberration-cover.jpg',
     type: 'novel',
   },
