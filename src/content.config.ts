@@ -18,6 +18,11 @@ const logs = defineCollection({
       tags: z.array(z.string()).optional(),
       /** When true, the entry is listed first on the logs index (still ordered by date among pinned and among unpinned). */
       pinned: z.boolean().optional().default(false),
+      /**
+       * 'log' (default) = in-universe Archive document, terminal styling.
+       * 'dispatch' = out-of-universe author post from Cody, rendered as a typewritten page.
+       */
+      kind: z.enum(['log', 'dispatch']).default('log'),
     })
     .superRefine((data, ctx) => {
       if (data.image && !data.imageAlt) {

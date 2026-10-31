@@ -1,0 +1,262 @@
+---
+/**
+ * Out-of-universe author posts ("dispatches").
+ * A physical, typewritten page laid on top of the terminal: deliberately breaks the
+ * Archive's dark UI so readers know this is Cody talking, not a document from Refuge.
+ */
+import PaperClip from './PaperClip.astro';
+
+type Props = {
+  title: string;
+  date: Date;
+  /** 1-based dispatch number, shown in the letterhead. */
+  number?: number;
+};
+
+const { title, date, number } = Astro.props;
+const typedDate = date.toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+const no = number ? String(number).padStart(2, '0') : null;
+---
+
+<div class="dispatch">
+  <p class="dispatch-intercept" aria-hidden="true">
+    &gt; NON-ARCHIVAL MATERIAL DETECTED<br />
+    &gt; SOURCE: PHYSICAL DOCUMENT // ORIGIN OUTSIDE REFUGE<br />
+    &gt; RENDERING ORIGINAL SCAN<span class="dispatch-cursor">_</span>
+  </p>
+
+  <article class="typewriter-paper dispatch-paper">
+    <PaperClip class="dispatch-clip" />
+
+    <div class="typewriter-stamp dispatch-stamp" aria-hidden="true">
+      <span>Off the record</span>
+      <small>From the desk of S.C. Barrus</small>
+    </div>
+
+    <header class="dispatch-letterhead">
+      <p class="dispatch-from">From the desk of</p>
+      <p class="dispatch-name">S.C. Barrus</p>
+      <dl class="dispatch-meta">
+        {no ? (<div><dt>Dispatch</dt><dd>No. {no}</dd></div>) : null}
+        <div><dt>Date</dt><dd><time datetime={date.toISOString().slice(0, 10)}>{typedDate}</time></dd></div>
+      </dl>
+    </header>
+
+    <h1 class="dispatch-title">{title}</h1>
+
+    <div class="dispatch-body">
+      <slot />
+    </div>
+
+    <div class="dispatch-stain" aria-hidden="true"></div>
+  </article>
+</div>
+
+<style>
+  .dispatch {
+    margin-top: 0.5rem;
+  }
+
+  /* The terminal "noticing" a foreign object — the only in-world element left. */
+  .dispatch-intercept {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    line-height: 1.7;
+    letter-spacing: 0.12em;
+    color: var(--color-refuge-terminalGreen);
+    opacity: 0.85;
+    margin-bottom: 2rem;
+  }
+  .dispatch-cursor {
+    animation: dispatch-blink 1s step-end infinite;
+  }
+  @keyframes dispatch-blink {
+    50% { opacity: 0; }
+  }
+
+  .dispatch-paper {
+    position: relative;
+    padding: 4.5rem 4rem 4rem;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.25) inset,
+      0 2px 4px rgba(0, 0, 0, 0.5),
+      0 24px 60px rgba(0, 0, 0, 0.7);
+    transform: rotate(-0.25deg);
+    font-family: 'Courier Prime', 'Courier New', Courier, monospace;
+  }
+
+  .dispatch-clip {
+    position: absolute;
+    top: -38px;
+    left: 2.25rem;
+    width: 26px;
+    height: 72px;
+    transform: rotate(4deg);
+    filter: drop-shadow(1px 2px 1px rgba(0, 0, 0, 0.35));
+  }
+
+  .dispatch-stamp {
+    position: absolute;
+    top: 2.6rem;
+    right: 2.4rem;
+    transform: rotate(7deg);
+  }
+
+  /* Everything typed gets a touch of ink bleed */
+  .dispatch-letterhead,
+  .dispatch-title,
+  .dispatch-body {
+    text-shadow: 0 0 0.7px rgba(31, 27, 22, 0.55);
+  }
+
+  .dispatch-letterhead {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    padding-bottom: 1.25rem;
+    margin-bottom: 2.25rem;
+    border-bottom: 1px dashed rgba(31, 27, 22, 0.55);
+  }
+  .dispatch-from {
+    font-size: 0.72rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+  .dispatch-name {
+    font-size: 1.9rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-top: 0.15rem;
+  }
+  .dispatch-meta {
+    margin-top: 1.1rem;
+    font-size: 0.85rem;
+    display: grid;
+    gap: 0.15rem;
+  }
+  .dispatch-meta div {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr;
+  }
+  .dispatch-meta dt {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .dispatch-meta dt::after {
+    content: ':';
+  }
+
+  /* Typists underlined titles with the underscore key */
+  .dispatch-title {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 6px;
+    margin-bottom: 2rem;
+  }
+
+  .dispatch-body {
+    font-size: 1.06rem;
+    line-height: 1.75;
+  }
+  .dispatch-body :global(p) {
+    margin: 0 0 1.25em;
+  }
+  .dispatch-body :global(h2),
+  .dispatch-body :global(h3) {
+    font-family: 'Special Elite', 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 1.15rem;
+    margin: 2.2em 0 0.8em;
+  }
+  .dispatch-body :global(a) {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+  .dispatch-body :global(a:hover) {
+    color: var(--ribbon-red);
+  }
+  .dispatch-body :global(strong) {
+    font-weight: 700;
+  }
+  /* Typewriter "red ribbon" for emphasis */
+  .dispatch-body :global(em) {
+    font-style: normal;
+    color: var(--ribbon-red);
+  }
+  .dispatch-body :global(blockquote) {
+    margin: 1.5em 0;
+    padding-left: 2.5em;
+  }
+  .dispatch-body :global(ul),
+  .dispatch-body :global(ol) {
+    margin: 0 0 1.25em 1.5em;
+  }
+  .dispatch-body :global(ul) { list-style: '-  '; }
+  .dispatch-body :global(ol) { list-style: decimal; }
+  .dispatch-body :global(hr) {
+    border: 0;
+    text-align: center;
+    margin: 2em 0;
+  }
+  .dispatch-body :global(hr)::before {
+    content: '*   *   *';
+  }
+  .dispatch-body :global(img) {
+    margin: 1.5em 0;
+    border: 8px solid #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    transform: rotate(0.8deg);
+  }
+  .dispatch-body ::selection,
+  .dispatch-title::selection {
+    background: rgba(168, 35, 28, 0.2);
+    color: var(--ink);
+  }
+
+  /* Faint coffee ring, bottom right */
+  .dispatch-stain {
+    position: absolute;
+    right: 3rem;
+    bottom: 2.5rem;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, transparent 58%, rgba(120, 72, 20, 0.12) 62%, rgba(120, 72, 20, 0.05) 67%, transparent 70%);
+    pointer-events: none;
+  }
+
+  @media (max-width: 640px) {
+    .dispatch-paper {
+      padding: 3.5rem 1.4rem 2.5rem;
+      transform: none;
+    }
+    .dispatch-stamp {
+      position: relative;
+      top: auto;
+      right: auto;
+      display: inline-block;
+      margin: 0 0 1.75rem;
+      transform: rotate(-3deg);
+    }
+    .dispatch-name { font-size: 1.5rem; }
+    .dispatch-meta div { grid-template-columns: 5.5rem 1fr; }
+    .dispatch-title { font-size: 1.3rem; }
+    .dispatch-body { font-size: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .dispatch-cursor { animation: none; }
+  }
+</style>
