@@ -1,19 +1,26 @@
 ---
 import LogTerminal from '../../components/mdx/LogTerminal.astro';
+import TypewriterPage from '../../components/TypewriterPage.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsletterSignup from '../../components/NewsletterSignup';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const entries = await getCollection('logs', ({ data }) => !data.draft);
+  // Dispatches are numbered in publish order (No. 01, No. 02 ...).
+  const dispatches = entries
+    .filter((e) => e.data.kind === 'dispatch')
+    .sort((a, b) => a.data.date.valueOf() - b.data.date.valueOf());
   return entries.map((entry) => {
     const tail = entry.id.split('/').pop() ?? entry.id;
     const slug = tail.replace(/\.mdx?$/i, '');
-    return { params: { slug }, props: { entry } };
+    const dispatchNumber = entry.data.kind === 'dispatch' ? dispatches.indexOf(entry) + 1 : undefined;
+    return { params: { slug }, props: { entry, dispatchNumber } };
   });
 }
 
-const { entry } = Astro.props;
+const { entry, dispatchNumber } = Astro.props;
+const isDispatch = entry.data.kind === 'dispatch';
 const { Content } = await render(entry);
 const description = entry.data.description ?? entry.data.summary ?? entry.data.title;
 const articleLd = {
@@ -37,6 +44,21 @@ const articleLd = {
   imageAlt={entry.data.imageAlt}
   jsonLd={[articleLd]}
 >
+  {isDispatch ? (
+    <div class="mx-auto max-w-content px-4 py-12 sm:px-5">
+      <TypewriterPage title={entry.data.title} date={entry.data.date} number={dispatchNumber}>
+        <Content components={{ LogTerminal }} />
+      </TypewriterPage>
+      <div class="mt-16">
+        <NewsletterSignup client:visible />
+      </div>
+      <nav class="mt-12 border-t border-refuge-border pt-8" aria-label="Log navigation">
+        <a class="font-mono text-sm font-medium text-refuge-terminal hover:underline" href="/logs/">
+          ← Return to logs index
+        </a>
+      </nav>
+    </div>
+  ) : (
   <article class="mx-auto max-w-content px-4 py-12 sm:px-5">
     <header class="border-b border-refuge-border pb-8">
       <p class="font-mono text-[11px] uppercase tracking-[0.22em] text-refuge-muted">Refuge log</p>
@@ -87,4 +109,5 @@ const articleLd = {
       </a>
     </nav>
   </article>
+  )}
 </BaseLayout>

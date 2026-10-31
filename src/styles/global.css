@@ -64,6 +64,46 @@
   }
 }
 
+/* Dispatch paper and stamp, shared by TypewriterPage and LogCard */
+.typewriter-paper {
+  --paper: #efe7d3;
+  --ink: #1f1b16;
+  --ribbon-red: #a8231c;
+  color: var(--ink);
+  background-color: var(--paper);
+  /* fibre + uneven ageing toward the edges */
+  background-image:
+    var(--paper-extra-layer, none),
+    radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(120, 90, 40, 0.16) 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.18 0 0 0 0.16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Red rubber stamp, worn ink via noise mask */
+.typewriter-stamp {
+  border: 3px double var(--ribbon-red);
+  padding: 0.35rem 0.8rem 0.4rem;
+  color: var(--ribbon-red);
+  text-align: center;
+  font-family: 'Special Elite', 'Courier New', monospace;
+  text-transform: uppercase;
+  line-height: 1.1;
+  opacity: 0.82;
+  mix-blend-mode: multiply;
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.4' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+}
+.typewriter-stamp span {
+  display: block;
+  font-size: 1.15rem;
+  letter-spacing: 0.08em;
+}
+.typewriter-stamp small {
+  display: block;
+  font-size: 0.58rem;
+  letter-spacing: 0.14em;
+  margin-top: 0.2rem;
+}
+
 /* First-visit-of-day terminal boot (see src/constants/terminalLoadAnimation.ts) */
 [data-terminal-header-right] .terminal-load-connection-run {
   display: none;

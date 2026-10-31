@@ -1,0 +1,13 @@
+---
+/** Paperclip drawing for dispatch paper. The parent sets its size and position through `class`. */
+const { class: className, ...rest } = Astro.props;
+---
+
+<svg class={className} viewBox="0 0 40 110" aria-hidden="true" {...rest}>
+  <path
+    d="M14 100 V18 a9 9 0 0 1 18 0 V88 a13 13 0 0 1 -26 0 V28"
+    fill="none"
+    stroke="#8a8f94"
+    stroke-width="3.2"
+    stroke-linecap="round"></path>
+</svg>
