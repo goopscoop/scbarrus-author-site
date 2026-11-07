@@ -25,7 +25,7 @@ export const books: Book[] = [
     year: '2020',
     description:
       'A supernatural mystery involving a book bound in human skin and the otherworldly spirits trapped within. Can William and Florence expel the otherworldly entities? More importantly, will they even survive the night?',
-    amazonUrl: 'https://www.amazon.com/Peculiar-Case-Luminous-Eye-Paranormal/dp/0989917746/',
+    amazonUrl: 'https://www.amazon.com/dp/B08BKXPT5V',
     goodreadsUrl: 'https://www.goodreads.com/book/show/54228797-the-peculiar-case-of-the-luminous-eye',
     genre: 'Supernatural mystery',
     img: 'peculiar-case-cover.jpg',
