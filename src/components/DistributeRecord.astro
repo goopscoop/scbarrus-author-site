@@ -1,0 +1,106 @@
+---
+/**
+ * "Distribute this record" share control for log pages.
+ * - With JS: Web Share API where available, else copy the URL and announce it.
+ * - Without JS: the button stays hidden and a plain permalink is shown instead.
+ */
+type Props = {
+  title: string;
+  text?: string;
+  /** Absolute URL to share. Defaults to the page's canonical URL. */
+  url?: string;
+  label?: string;
+};
+
+const path = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const {
+  title,
+  text = '',
+  url = new URL(path, Astro.site).href,
+  label = 'Distribute this record',
+} = Astro.props;
+---
+
+<div class="distribute-record mt-10 flex flex-wrap items-center gap-x-4 gap-y-2" data-distribute-record>
+  <button
+    type="button"
+    hidden
+    data-distribute-button
+    data-title={title}
+    data-text={text}
+    data-url={url}
+    class="inline-flex items-center gap-2 rounded-sm border border-refuge-border bg-refuge-surface px-3 py-2 font-mono text-[11px] uppercase tracking-[0.2em] text-refuge-terminal transition-colors hover:border-refuge-terminal motion-reduce:transition-none"
+  >
+    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+      <path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M12 3v12M7 8l5-5 5 5" />
+    </svg>
+    {label}
+  </button>
+  <p data-distribute-fallback class="font-mono text-[11px] uppercase tracking-[0.2em] text-refuge-muted">
+    Record location: <a class="normal-case tracking-normal text-refuge-terminal hover:underline" href={url}>{url}</a>
+  </p>
+  <p
+    data-distribute-status
+    role="status"
+    aria-live="polite"
+    class="font-mono text-[11px] uppercase tracking-[0.2em] text-refuge-terminalGreen transition-opacity duration-300 motion-reduce:transition-none"
+  ></p>
+</div>
+
+<script>
+  function initDistribute() {
+    document.querySelectorAll<HTMLElement>('[data-distribute-record]').forEach((root) => {
+      const button = root.querySelector<HTMLButtonElement>('[data-distribute-button]');
+      const fallback = root.querySelector<HTMLElement>('[data-distribute-fallback]');
+      const status = root.querySelector<HTMLElement>('[data-distribute-status]');
+      if (!button || !status || button.dataset.ready) return;
+
+      const canShare = typeof navigator.share === 'function';
+      const canCopy = !!navigator.clipboard?.writeText;
+      // Nothing we can do from JS: leave the plain permalink in place.
+      if (!canShare && !canCopy) return;
+
+      button.dataset.ready = 'true';
+      button.hidden = false;
+      if (fallback) fallback.hidden = true;
+
+      let clearTimer: number | undefined;
+      const announce = (message: string) => {
+        window.clearTimeout(clearTimer);
+        status.textContent = message;
+        clearTimer = window.setTimeout(() => {
+          status.textContent = '';
+        }, 4000);
+      };
+
+      const { title = document.title, text = '', url = location.href } = button.dataset;
+
+      const copy = async () => {
+        try {
+          await navigator.clipboard.writeText(url);
+          announce('Record location copied.');
+        } catch {
+          if (fallback) fallback.hidden = false;
+          announce('Copy blocked. Record location shown.');
+        }
+      };
+
+      button.addEventListener('click', async () => {
+        if (canShare) {
+          try {
+            await navigator.share({ title, text, url });
+            announce('Record distributed.');
+            return;
+          } catch (err) {
+            // The citizen closed the share sheet: say nothing.
+            if (err instanceof DOMException && err.name === 'AbortError') return;
+          }
+        }
+        if (canCopy) await copy();
+      });
+    });
+  }
+
+  initDistribute();
+  document.addEventListener('astro:page-load', initDistribute);
+</script>
