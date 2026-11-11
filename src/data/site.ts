@@ -1,3 +1,5 @@
+import { socialProfiles } from './social';
+
 /** Update these before publishing. */
 export const site = {
   authorName: 'S.C. Barrus',
@@ -16,6 +18,7 @@ export const site = {
    */
   sameAs: [
     'https://scbarrus.com/',
+    ...socialProfiles.map((p) => p.url),
   ],
   /** Short line for the home page */
   positioning:
