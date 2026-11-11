@@ -3,6 +3,7 @@ import LogTerminal from '../../components/mdx/LogTerminal.astro';
 import TypewriterPage from '../../components/TypewriterPage.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import NewsletterSignup from '../../components/NewsletterSignup';
+import DistributeRecord from '../../components/DistributeRecord.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -23,6 +24,7 @@ const { entry, dispatchNumber } = Astro.props;
 const isDispatch = entry.data.kind === 'dispatch';
 const { Content } = await render(entry);
 const description = entry.data.description ?? entry.data.summary ?? entry.data.title;
+const shareText = entry.data.summary ?? description;
 const articleLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -50,6 +52,7 @@ const articleLd = {
       <TypewriterPage title={entry.data.title} date={entry.data.date} number={dispatchNumber}>
         <Content components={{ LogTerminal }} />
       </TypewriterPage>
+      <DistributeRecord title={entry.data.title} text={shareText} />
       <div class="mt-16">
         <NewsletterSignup client:visible />
       </div>
@@ -99,6 +102,7 @@ const articleLd = {
     >
       <Content components={{ LogTerminal }} />
     </div>
+    <DistributeRecord title={entry.data.title} text={shareText} />
     <br/>
     <NewsletterSignup client:visible />
     <nav class="mt-12 border-t border-refuge-border pt-8" aria-label="Log navigation">
